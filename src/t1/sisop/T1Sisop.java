@@ -5,6 +5,8 @@
  */
 package t1.sisop;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -17,17 +19,39 @@ public class T1Sisop {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        // int n = Integer.parseInt(args[0]);
+        int n = 5;
+        int tempo = 30;
         
-        Semaphore g1 = new Semaphore(1);
-        Semaphore g2 = new Semaphore(1);
-        Semaphore g3 = new Semaphore(1);
-        Semaphore g4 = new Semaphore(1);
         
-        Filosofo f1 = new Filosofo(g1,g2);
-        Filosofo f2 = new Filosofo(g2,g3);
-        Filosofo f3 = new Filosofo(g3,g4);
-        Filosofo f4 = new Filosofo(g4,g1);
+        long tempoMili = tempo * 1000; 
+
+        ExecutorService executor = Executors.newFixedThreadPool(n);
+
+        //cria os garfos e popula o array de garfos
+        Semaphore[] garfos = new Semaphore[n];
+        for (int i = 0; i < garfos.length; i++) {
+            garfos[i] = new Semaphore(1);
+        }
+
+        //cria os filósofos e popula o array de filosfos        
+        Filosofo[] filosofos = new Filosofo[n];
+
+        for (int i = 0; i < filosofos.length; i++) {
+            if (i == filosofos.length - 1) {
+                filosofos[i] = new Filosofo(garfos[i], garfos[0], i, true);
+            } else {
+                filosofos[i] = new Filosofo(garfos[i], garfos[i + 1], i, true);
+            }
+        }
+
+        //executa as threads
+        for (Filosofo f : filosofos) {
+            executor.execute(f);
+        }
+        executor.shutdown();
+
     }
-    
+
 }
