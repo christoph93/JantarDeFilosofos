@@ -18,32 +18,42 @@ public class Filosofo implements Runnable {
     private Estado estado;
     private Semaphore g1, g2;
     private int id;
+    private boolean run = true;
+    private Estatisticas s;
     
     private int contadorTENTADO_COMER, contadorPENSANDO, contadorCOMENDO;
 
-    public Filosofo(Semaphore g1, Semaphore g2, int id, boolean run) {
+    public Filosofo(Semaphore g1, Semaphore g2, int id) {
         this.estado = Estado.TENTANDO_COMER;
         this.g1 = g1;
         this.g2 = g2;
         this.id = id;
         contadorTENTADO_COMER = 0;
         contadorCOMENDO = 0;
-        contadorPENSANDO = 0;
+        contadorPENSANDO = 0;      
+        this.s = new Estatisticas(id);
     }
 
     @Override
     public void run() {
         try {
+            if(run){            
             System.out.println("Iniciando filosofo " + id);
             tentarComer();
+            }
         } catch (InterruptedException ex) {
             Logger.getLogger(Filosofo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void stop(){
+        this.run = false;
+    }
 
     public void tentarComer() throws InterruptedException {        
         double t;
-        while (this.estado == Estado.TENTANDO_COMER) {            
+        if(run){
+        while (this.estado == Estado.TENTANDO_COMER && run) {            
             //tenta pegar o primeiro garfo
             if (g1.tryAcquire()) {
                 //se pegou os primeiro, tenta pegar o segundo
@@ -63,9 +73,11 @@ public class Filosofo implements Runnable {
             }
 
         }
+        }
     }
 
-    public void pensar() {        
+    public void pensar() {  
+        if(run){
         try {
             this.estado = Estado.PENSANDO;
             contadorPENSANDO++;
@@ -75,9 +87,11 @@ public class Filosofo implements Runnable {
         } catch (InterruptedException ex) {
             Logger.getLogger(Filosofo.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }
     }
 
-    public void comer() {       
+    public void comer() {     
+        if(run){
         try {
             this.estado = Estado.COMENDO;
             contadorCOMENDO++;
@@ -89,11 +103,15 @@ public class Filosofo implements Runnable {
         } catch (InterruptedException ex) {
             Logger.getLogger(Filosofo.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }
     }
     
-    public int[] getContadores(){
-        int[] conts = {contadorPENSANDO, contadorTENTADO_COMER, contadorCOMENDO};
-        return conts;
+    public void setContadores(){
+        s.setContadores(contadorTENTADO_COMER, contadorCOMENDO, contadorPENSANDO);
+    }
+    
+    public Estatisticas getEstatisitcas(){
+        return s;
     }
 
     public String toString(){

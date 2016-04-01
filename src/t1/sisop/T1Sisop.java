@@ -22,7 +22,8 @@ public class T1Sisop {
 
         // int n = Integer.parseInt(args[0]);
         int n = 5;
-        int tempo = 30;
+        int tempo = 5;
+        boolean run = true;
         
         
         long tempoMili = tempo * 1000; 
@@ -40,9 +41,9 @@ public class T1Sisop {
 
         for (int i = 0; i < filosofos.length; i++) {
             if (i == filosofos.length - 1) {
-                filosofos[i] = new Filosofo(garfos[i], garfos[0], i, true);
+                filosofos[i] = new Filosofo(garfos[i], garfos[0], i);
             } else {
-                filosofos[i] = new Filosofo(garfos[i], garfos[i + 1], i, true);
+                filosofos[i] = new Filosofo(garfos[i], garfos[i + 1], i);
             }
         }
 
@@ -51,6 +52,25 @@ public class T1Sisop {
             executor.execute(f);
         }
         executor.shutdown();
+        
+        long t0 = System.currentTimeMillis();
+        
+        while(System.currentTimeMillis() - t0 < tempoMili){
+            
+        }
+        
+        System.out.println("Parando");
+        
+        for (Filosofo f : filosofos) {
+            f.stop();
+        }
+        
+        
+        for (Filosofo f : filosofos) {
+            f.setContadores();
+            System.out.println(f.getEstatisitcas().toString());
+        }
+        
 
     }
 
