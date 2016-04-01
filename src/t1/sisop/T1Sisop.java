@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -24,9 +25,17 @@ public class T1Sisop {
      */
     public static void main(String[] args) throws IOException {
 
-        // int n = Integer.parseInt(args[0]);
-        int n = 100;
-        int tempo = 10;        
+        Scanner reader = new Scanner(System.in);
+        
+        System.out.println("Número de filósofos:");
+        
+        int n = reader.nextInt();
+        
+        System.out.println("Tempo de execução (segundos):");        
+        
+        int tempo = reader.nextInt();
+        
+        System.out.println("Iniciando para " + n + " filósofos por " + tempo + " segundos");
         
         long tempoMili = tempo * 1000; 
 
