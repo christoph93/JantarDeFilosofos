@@ -96,7 +96,7 @@ public class Filosofo implements Runnable {
             this.estado = Estado.COMENDO;
             contadorCOMENDO++;
             Thread.sleep(100);
-            System.out.println("Filósofo " + id + " comeu! Liberando garfos.");
+            //System.out.println("Filósofo " + id + " comeu! Liberando garfos.");
             g1.release();
             g2.release();
             pensar();

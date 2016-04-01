@@ -5,6 +5,10 @@
  */
 package t1.sisop;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -18,13 +22,11 @@ public class T1Sisop {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         // int n = Integer.parseInt(args[0]);
-        int n = 5;
-        int tempo = 5;
-        boolean run = true;
-        
+        int n = 100;
+        int tempo = 10;        
         
         long tempoMili = tempo * 1000; 
 
@@ -63,13 +65,30 @@ public class T1Sisop {
         
         for (Filosofo f : filosofos) {
             f.stop();
-        }
+        }        
         
-        
+        FileWriter fw = new FileWriter("status.txt");
+                
         for (Filosofo f : filosofos) {
             f.setContadores();
-            System.out.println(f.getEstatisitcas().toString());
+            fw.write(f.getEstatisitcas().toString() + "\n \n");
         }
+        
+        fw.close();
+        
+        
+        FileReader fr = new FileReader("status.txt");
+        BufferedReader br = new BufferedReader(fr);
+        
+        String line = br.readLine();
+        
+        while(line != null){
+            System.out.println(line);
+            line = br.readLine();
+        }
+        
+        
+        
         
 
     }
