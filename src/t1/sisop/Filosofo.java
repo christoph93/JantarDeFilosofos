@@ -60,14 +60,14 @@ public class Filosofo implements Runnable {
                 if (!g2.tryAcquire()) {
                     //se não conseguiu pegar o segundo, larga o primeiro e tenta de novo
                     g1.release();
-                    Thread.sleep(ThreadLocalRandom.current().nextLong(0, 101));
+                    Thread.sleep(ThreadLocalRandom.current().nextLong(0, 100));
                 } else {
                     //já tem o primeio e conseguiu pegar o segundo
                     comer();
                 }
             } else {
                 //não conseguiu pegar o primeiro
-                Thread.sleep(ThreadLocalRandom.current().nextLong(0, 101));
+                Thread.sleep(ThreadLocalRandom.current().nextLong(0, 100));
             }
         }
 
