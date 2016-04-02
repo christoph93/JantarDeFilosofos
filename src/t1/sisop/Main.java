@@ -18,7 +18,7 @@ import java.util.concurrent.Semaphore;
  *
  * @author 12104806
  */
-public class T1Sisop {
+public class Main {
 
     /**
      * @param args the command line arguments
