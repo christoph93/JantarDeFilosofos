@@ -80,7 +80,7 @@ public class Filosofo implements Runnable {
                 contadorPENSANDO++;
                 Thread.sleep(500);
                 this.estado = Estado.TENTANDO_COMER;
-                contadorTENTADO_COMER++;
+                contadorTENTADO_COMER++;                
             } catch (InterruptedException ex) {
                 Logger.getLogger(Filosofo.class.getName()).log(Level.SEVERE, null, ex);
             }
